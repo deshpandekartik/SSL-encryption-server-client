@@ -10,6 +10,7 @@ class SSLClient(TCPBase):
 	host = None
         port = None
         ssl_certfile = None
+	BUFFERSIZE = 1024
 
     	def __init__(self, host_arg, port_arg, ssl_certfile_arg):
 		self.host = host_arg
@@ -22,6 +23,7 @@ class SSLClient(TCPBase):
             		self.ssl_sock = ssl.wrap_socket(self.soc,
                                             ca_certs=self.ssl_certfile,
                                             cert_reqs=ssl.CERT_REQUIRED )
+
         	except socket.error:
             		print "SSL socket wrapping failed"
 			sys.exit(0)
@@ -39,6 +41,11 @@ class SSLClient(TCPBase):
 	def close_connection(self):
 		self.soc.close()
                 self.ssl_sock.close()
+
+	def receive_messages(self):
+		reply = self.ssl_sock.recv(self.BUFFERSIZE)
+		print reply
+		print self.ssl_sock
 
 
 if __name__ == '__main__':
@@ -59,5 +66,6 @@ if __name__ == '__main__':
 
 	client.send_messages(userid)
 	client.send_messages(password)
+	client.receive_messages()
 
 	client.close_connection()
