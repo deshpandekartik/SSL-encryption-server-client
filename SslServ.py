@@ -79,11 +79,9 @@ class SSLServer(TCPBase):
 
 			self.credentials = self.update_users()
 
-			print self.credentials	
 			if userid in self.credentials:
 				if self.credentials[userid] == password:
- 					print "OK"
-					to_client = "the password is correct"
+					to_client = "OK"
 				else:
 					to_client = "the password is incorrect"
 			else:

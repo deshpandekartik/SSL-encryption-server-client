@@ -43,9 +43,12 @@ class SSLClient(TCPBase):
                 self.ssl_sock.close()
 
 	def receive_messages(self):
-		reply = self.ssl_sock.recv(self.BUFFERSIZE)
-		print reply
-		print self.ssl_sock
+		reply = self.soc.recv(self.BUFFERSIZE)
+
+		if reply.strip() == "OK":
+			print "the password is correct"
+		else:
+			print reply
 
 
 if __name__ == '__main__':
@@ -60,9 +63,17 @@ if __name__ == '__main__':
 
 	client = SSLClient(host_arg,port_arg,ssl_certfile_arg)
 	client.connect_to_server()
+
+
 	userid = raw_input("\nPlease enter User ID:\n")
 	userid = userid.strip()
+
+	while userid == "" :
+		userid = raw_input("\nPlease enter User ID:\n")
 	password = raw_input("\nPlease enter password for User " + userid + ":\n")
+
+	while password == "" :
+		password = raw_input("\nPlease enter password for User " + userid + ":\n")
 
 	client.send_messages(userid)
 	client.send_messages(password)
