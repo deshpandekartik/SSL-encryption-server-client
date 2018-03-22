@@ -24,11 +24,13 @@ class SSLClient(TCPBase):
                                             cert_reqs=ssl.CERT_REQUIRED )
         	except socket.error:
             		print "SSL socket wrapping failed"
+			sys.exit(0)
         
             	try:
                 	self.ssl_sock.connect((self.host, self.port))
             	except socket.error, msg:
-                    	self.printErr("Socket connection error in client: ", msg);
+                    	print "No server found on: " + self.host + ":" + str(self.port) 
+			sys.exit(0)
                     
 
 	def send_messages(self,to_server_chat):
@@ -51,5 +53,11 @@ if __name__ == '__main__':
 
 	client = SSLClient(host_arg,port_arg,ssl_certfile_arg)
 	client.connect_to_server()
-	client.send_messages("asdasd")
+	userid = raw_input("\nPlease enter User ID:\n")
+	userid = userid.strip()
+	password = raw_input("\nPlease enter password for User " + userid + ":\n")
+
+	client.send_messages(userid)
+	client.send_messages(password)
+
 	client.close_connection()
