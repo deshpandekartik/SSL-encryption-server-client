@@ -48,10 +48,11 @@ class SSLServer(TCPBase):
 
 	def update_users(self):
 		self.credentials = {}
-		with open ('password', 'r') as file:
-	        	for line in file:
-        	        	split = line.split()
-                		self.credentials[split[0]] = split[1]	
+		if os.path.isfile('password'):
+			with open ('password', 'r') as file:
+		        	for line in file:
+        		        	split = line.split()
+                			self.credentials[split[0]] = split[1]	
 
 		return self.credentials
 
