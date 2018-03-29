@@ -4,6 +4,7 @@ import socket
 import ssl
 import sys
 import hashlib
+import os
 from TCPBase import TCPBase
 
 class SSLServer(TCPBase):
@@ -16,7 +17,7 @@ class SSLServer(TCPBase):
 	credentials = {}
 
 	def __init__(self, host_arg, port_arg, ssl_keyfile_arg, ssl_certfile_arg):
-		self.host = "localhost"
+		self.host = "0.0.0.0"
 		self.port = port_arg
 		self.ssl_keyfile = ssl_keyfile_arg
 		self.ssl_certfile = ssl_certfile_arg
